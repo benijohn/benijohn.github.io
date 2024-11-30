@@ -14,48 +14,59 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f4;
     }
 
     .container {
       position: relative;
       width: 80%;
-      margin: 50px auto;
       max-width: 800px;
-    }
-
-    .image-wrapper {
-      position: relative;
+      aspect-ratio: 16 / 9;
       overflow: hidden;
     }
 
-    .image-wrapper img {
-      display: block;
+    .image-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      pointer-events: none;
+      height: 100%;
+    }
+
+    .image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
     }
 
     .overlay {
       position: absolute;
       top: 0;
       left: 0;
-      width: 50%; /* Default slider position */
+      width: 50%; /* Default position */
       height: 100%;
       overflow: hidden;
-      pointer-events: none;
     }
 
     .overlay img {
       width: 100%;
-      pointer-events: none;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
     }
 
     .slider {
       position: absolute;
       top: 0;
-      left: calc(50% - 10px); /* Centered on the default overlay width */
-      width: 20px;
+      left: 50%; /* Default position */
+      width: 4px;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: #000;
       cursor: ew-resize;
       z-index: 10;
     }
@@ -72,53 +83,52 @@
 <p>Hello! Welcome to our project webpage. We are trying to enable better planning through data-driven "hallucinations" combined with quantifying the confidence of the inference.</p>
 
 
-  <div class="container">
-    <div class="image-wrapper">
-      <img src="images/slider_imgs/train_map_gt.png" alt="Ground Truth">
-      <div class="overlay">
-        <img src="images/slider_imgs/train_map_painted.jpg" alt="Inpainted">
-      </div>
-      <div class="slider"></div>
+<div class="container">
+  <div class="image-wrapper">
+    <img src="ground-truth.jpg" alt="Ground Truth">
+    <div class="overlay">
+      <img src="unpainted.jpg" alt="Unpainted">
     </div>
+    <div class="slider"></div>
   </div>
+</div>
 
-  <script>
-    const container = document.querySelector('.container');
-    const overlay = document.querySelector('.overlay');
-    const slider = document.querySelector('.slider');
+<script>
+  const container = document.querySelector('.container');
+  const overlay = document.querySelector('.overlay');
+  const slider = document.querySelector('.slider');
 
-    let isDragging = false;
+  let isDragging = false;
 
-    const startDrag = (e) => {
-      isDragging = true;
-      document.addEventListener('mousemove', drag);
-      document.addEventListener('mouseup', stopDrag);
-    };
+  const startDrag = () => {
+    isDragging = true;
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', stopDrag);
+  };
 
-    const drag = (e) => {
-      if (!isDragging) return;
+  const drag = (e) => {
+    if (!isDragging) return;
 
-      const rect = container.getBoundingClientRect();
-      let offsetX = e.clientX - rect.left;
+    const rect = container.getBoundingClientRect();
+    let offsetX = e.clientX - rect.left;
 
-      // Clamp offsetX between 0 and container width
-      offsetX = Math.max(0, Math.min(offsetX, rect.width));
+    // Clamp offsetX to stay within the container bounds
+    offsetX = Math.max(0, Math.min(offsetX, rect.width));
 
-      const percentage = (offsetX / rect.width) * 100;
+    const percentage = (offsetX / rect.width) * 100;
 
-      overlay.style.width = `${percentage}%`;
-      slider.style.left = `calc(${percentage}% - 10px)`;
-    };
+    overlay.style.width = `${percentage}%`;
+    slider.style.left = `${percentage}%`;
+  };
 
-    const stopDrag = () => {
-      isDragging = false;
-      document.removeEventListener('mousemove', drag);
-      document.removeEventListener('mouseup', stopDrag);
-    };
+  const stopDrag = () => {
+    isDragging = false;
+    document.removeEventListener('mousemove', drag);
+    document.removeEventListener('mouseup', stopDrag);
+  };
 
-    slider.addEventListener('mousedown', startDrag);
-  </script>
-
+  slider.addEventListener('mousedown', startDrag);
+</script>
 
 </body>
 </html>
