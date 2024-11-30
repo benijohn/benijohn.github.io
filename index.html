@@ -1,14 +1,9 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>Occlusion Inpainting</title>
-  <LINK href="styles.css" rel="stylesheet" type="text/css">
-
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Comparison Slider</title>
+  <title>Centered Auto-Scaled Slider</title>
   <style>
     /* Reset styles to avoid interference */
     * {
@@ -17,117 +12,239 @@
       box-sizing: border-box;
     }
 
-    /* Keep existing styles isolated */
-    .slider-container {
+    /* Body: Center everything on the screen */
+    body {
+      display: flex;
+      justify-content: center; /* Horizontally center */
+      align-items: center; /* Vertically center */
+      height: 100vh; /* Full screen height */
+      background-color: #f8f8f8; /* Light background color */
+    }
+
+    /* Flex container for sliders */
+    .slider-group {
+      display: flex;
+      justify-content: space-around; /* Distribute sliders evenly */
+      gap: 20px; /* Add space between sliders */
+      flex-wrap: wrap; /* Wrap sliders on smaller screens */
+    }
+
+    /* Individual slider container */
+    .slider-item {
+      text-align: center; /* Center text labels */
+      max-width: 800px;
+    }
+
+   /* Slider container */
+   .slider-container {
       position: relative;
-      width: 80%;
-      max-width: 400px;
-      margin: 50px auto; /* Center the slider on the page */
-      aspect-ratio: 1/1;
+      width: 100%; /* Responsive width */
+      aspect-ratio: 1; /* Keep container square */
+      border: 1px solid #ccc;
       overflow: hidden;
-      border: 1px solid #ddd;
-      background: #f0f0f0; /* Light background in case images are missing */
     }
 
-    .image-wrapper {
+    /* Base image (bottom image) */
+    .slider-container img.base {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-    }
-
-    .image-wrapper img {
-      width: 100%;
-      height: 100%;
       object-fit: cover;
-      position: absolute;
     }
 
-    .overlay {
+    /* Overlay image (top image) */
+    .slider-container img.overlay {
       position: absolute;
       top: 0;
       left: 0;
-      width: 50%; /* Default overlay size */
-      height: 100%;
-      overflow: hidden;
-    }
-
-    .overlay img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      position: absolute;
+      clip-path: inset(0 50% 0 0); /* Initially reveal half of the bottom image */
     }
 
+
+    /* Slider bar */
     .slider {
       position: absolute;
       top: 0;
       left: 50%; /* Default slider position */
-      width: 4px;
+      width: 10px; /* Slightly wider for better usability */
       height: 100%;
       background-color: #000;
       cursor: ew-resize;
+      transform: translateX(-50%); /* Center the bar */
       z-index: 10;
     }
+
+    /* Expand clickable area */
+    .slider::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -5px;
+      width: 20px; /* Expands the clickable area */
+      height: 100%;
+      cursor: ew-resize;
+    }
+
+    /* Caption styling */
+    .caption {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #333;
+    }
+
   </style>
 </head>
-
 <body>
 
-<img src="https://octodex.github.com/images/daftpunktocat-thomas.gif" id="octocat" alt="octocat-gif" />
 
-<img src="images/uncertain_map_icar.png" id="test_image" alt="icar-png" />
-
-<!-- Change this code here by copy and pasting your template on line 15 -->
-<p>Hello! Welcome to our project webpage. We are trying to enable better planning through data-driven "hallucinations" combined with quantifying the confidence of the inference.</p>
-
-
-<div class="container">
-  <div class="image-wrapper">
-    <img src="images/slider_imgs/train_map_gt.png" alt="Ground Truth">
-    <div class="overlay">
-      <img src="images/slider_imgs/train_map_painted.jpg" alt="Unpainted">
-    </div>
+      <!-- Slider container -->
+  <div class="slider-container" style="width: 300px; height: 300px; background-color: lightblue;">
+    <!-- Bottom image -->
+    <img src="images/slider_imgs/train_map_gt.png" alt="Ground Truth" class="base">
+    <!-- Top image -->
+    <img src="images/slider_imgs/train_map_painted.jpg" alt="Unpainted" class="overlay">
+    <!-- Slider bar -->
     <div class="slider"></div>
   </div>
-</div>
+
+
+  <h1 style="text-align: center; margin-bottom: 20px;">Image Comparison Sliders</h1>
+
+  <!-- Group of sliders -->
+  <div class="slider-group">
+    <!-- Slider 1 -->
+    <div class="slider-item">
+      <h3>Slider 1: Example A</h3>
+            <!-- Slider container -->
+    <div class="slider-container">
+      <!-- Bottom image -->
+      <img src="images/slider_imgs/train_map_gt.png" alt="Ground Truth" class="base">
+      <!-- Top image -->
+      <img src="images/slider_imgs/train_map_painted.jpg" alt="Unpainted" class="overlay">
+      <!-- Slider bar -->
+      <div class="slider"></div>
+    </div>
+      <p class="caption">Caption for Slider 1</p>
+    </div>
+
+    <!-- Slider 2 -->
+    <div class="slider-item">
+      <h3>Slider 2: Example B</h3>
+            <!-- Slider container -->
+    <div class="slider-container">
+      <!-- Bottom image -->
+      <img src="images/slider_imgs/train_map_gt.png" alt="Ground Truth" class="base">
+      <!-- Top image -->
+      <img src="images/slider_imgs/train_map_painted.jpg" alt="Unpainted" class="overlay">
+      <!-- Slider bar -->
+      <div class="slider"></div>
+    </div>
+      <p class="caption">Caption for Slider 2</p>
+    </div>
+
+    <!-- Slider 3 -->
+    <div class="slider-item">
+      <h3>Slider 3: Example C</h3>
+            <!-- Slider container -->
+    <div class="slider-container">
+      <!-- Bottom image -->
+      <img src="images/slider_imgs/train_map_gt.png" alt="Ground Truth" class="base">
+      <!-- Top image -->
+      <img src="images/slider_imgs/train_map_painted.jpg" alt="Unpainted" class="overlay">
+      <!-- Slider bar -->
+      <div class="slider"></div>
+    </div>
+      <p class="caption">Caption for Slider 3</p>
+    </div>
+  </div>
+
+
+
+  <script>
+    const container = document.querySelector('.slider-container');
+    const overlay = document.querySelector('.overlay');
+    const slider = document.querySelector('.slider');
+
+    let isDragging = false;
+
+    // Start dragging
+    const startDrag = (e) => {
+      isDragging = true;
+      document.addEventListener('mousemove', drag);
+      document.addEventListener('mouseup', stopDrag);
+    };
+
+    // Dragging logic
+    const drag = (e) => {
+      if (!isDragging) return;
+
+      const rect = container.getBoundingClientRect();
+      let offsetX = e.clientX - rect.left;
+
+      // Clamp slider position within the container
+      offsetX = Math.max(0, Math.min(offsetX, rect.width));
+
+      // Update slider position
+      const percentage = (offsetX / rect.width) * 100;
+      slider.style.left = `${percentage}%`;
+
+      // Reveal the top image based on the slider's position
+      overlay.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+    };
+
+    // Stop dragging
+    const stopDrag = () => {
+      isDragging = false;
+      document.removeEventListener('mousemove', drag);
+      document.removeEventListener('mouseup', stopDrag);
+    };
+
+    // Attach events
+    slider.addEventListener('mousedown', startDrag);
+  </script>
 
 <script>
-  const container = document.querySelector('.container');
-  const overlay = document.querySelector('.overlay');
-  const slider = document.querySelector('.slider');
+  // Attach slider functionality to all sliders
+  document.querySelectorAll('.slider-container').forEach((container) => {
+    const overlay = container.querySelector('.overlay');
+    const slider = container.querySelector('.slider');
 
-  let isDragging = false;
+    let isDragging = false;
 
-  const startDrag = () => {
-    isDragging = true;
-    document.addEventListener('mousemove', drag);
-    document.addEventListener('mouseup', stopDrag);
-  };
+    const startDrag = () => {
+      isDragging = true;
+      document.addEventListener('mousemove', drag);
+      document.addEventListener('mouseup', stopDrag);
+    };
 
-  const drag = (e) => {
-    if (!isDragging) return;
+    const drag = (e) => {
+      if (!isDragging) return;
 
-    const rect = container.getBoundingClientRect();
-    let offsetX = e.clientX - rect.left;
+      const rect = container.getBoundingClientRect();
+      let offsetX = e.clientX - rect.left;
 
-    // Clamp offsetX to stay within the container bounds
-    offsetX = Math.max(0, Math.min(offsetX, rect.width));
+      // Constrain slider position
+      offsetX = Math.max(0, Math.min(offsetX, rect.width));
 
-    const percentage = (offsetX / rect.width) * 100;
+      // Update slider position and overlay visibility
+      const percentage = (offsetX / rect.width) * 100;
+      slider.style.left = `${percentage}%`;
+      overlay.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+    };
 
-    overlay.style.width = `${percentage}%`;
-    slider.style.left = `${percentage}%`;
-  };
+    const stopDrag = () => {
+      isDragging = false;
+      document.removeEventListener('mousemove', drag);
+      document.removeEventListener('mouseup', stopDrag);
+    };
 
-  const stopDrag = () => {
-    isDragging = false;
-    document.removeEventListener('mousemove', drag);
-    document.removeEventListener('mouseup', stopDrag);
-  };
-
-  slider.addEventListener('mousedown', startDrag);
+    slider.addEventListener('mousedown', startDrag);
+  });
 </script>
 
 </body>
