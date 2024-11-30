@@ -5,6 +5,61 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>Occlusion Inpainting</title>
   <LINK href="styles.css" rel="stylesheet" type="text/css">
+
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Comparison Slider</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      position: relative;
+      width: 80%;
+      margin: 50px auto;
+      max-width: 800px;
+    }
+
+    .image-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .image-wrapper img {
+      display: block;
+      width: 100%;
+      pointer-events: none;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%; /* Default slider position */
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .overlay img {
+      width: 100%;
+      pointer-events: none;
+    }
+
+    .slider {
+      position: absolute;
+      top: 0;
+      left: calc(50% - 10px); /* Centered on the default overlay width */
+      width: 20px;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      cursor: ew-resize;
+      z-index: 10;
+    }
+  </style>
 </head>
 
 <body>
@@ -15,6 +70,55 @@
 
 <!-- Change this code here by copy and pasting your template on line 15 -->
 <p>Hello! Welcome to our project webpage. We are trying to enable better planning through data-driven "hallucinations" combined with quantifying the confidence of the inference.</p>
+
+
+  <div class="container">
+    <div class="image-wrapper">
+      <img src="images/slider_imgs/train_map_gt.png" alt="Ground Truth">
+      <div class="overlay">
+        <img src="images/slider_imgs/train_map_painted.jpg" alt="Inpainted">
+      </div>
+      <div class="slider"></div>
+    </div>
+  </div>
+
+  <script>
+    const container = document.querySelector('.container');
+    const overlay = document.querySelector('.overlay');
+    const slider = document.querySelector('.slider');
+
+    let isDragging = false;
+
+    const startDrag = (e) => {
+      isDragging = true;
+      document.addEventListener('mousemove', drag);
+      document.addEventListener('mouseup', stopDrag);
+    };
+
+    const drag = (e) => {
+      if (!isDragging) return;
+
+      const rect = container.getBoundingClientRect();
+      let offsetX = e.clientX - rect.left;
+
+      // Clamp offsetX between 0 and container width
+      offsetX = Math.max(0, Math.min(offsetX, rect.width));
+
+      const percentage = (offsetX / rect.width) * 100;
+
+      overlay.style.width = `${percentage}%`;
+      slider.style.left = `calc(${percentage}% - 10px)`;
+    };
+
+    const stopDrag = () => {
+      isDragging = false;
+      document.removeEventListener('mousemove', drag);
+      document.removeEventListener('mouseup', stopDrag);
+    };
+
+    slider.addEventListener('mousedown', startDrag);
+  </script>
+
 
 </body>
 </html>
